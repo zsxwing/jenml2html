@@ -30,5 +30,12 @@
 			<artifactId>libthrift</artifactId>
 			<version>0.8.0</version>
 		</dependency>
-	</dependencies>
+	    <dependency>
+            <groupId>com.evernote</groupId>
+            <artifactId>com.evernote.edam</artifactId>
+            <version>1.21</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/evernote-api-1.21.jar</systemPath>
+        </dependency>
+    </dependencies>
 </project>
