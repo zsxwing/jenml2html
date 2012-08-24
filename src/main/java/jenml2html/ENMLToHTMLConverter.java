@@ -33,7 +33,8 @@ public class ENMLToHTMLConverter {
 	 * @return
 	 */
 	private String tidyNoteContent(String content) {
-		return content.replace(DOCTYPE_declaration, "");
+		return content.replace(DOCTYPE_declaration, "").replaceAll("&nbsp",
+				"&#160");
 	}
 
 	/**
@@ -63,8 +64,9 @@ public class ENMLToHTMLConverter {
 				endIndex--;
 			}
 		}
-		return xmlString.substring(beginIndex,
+		String htmlSnippet = xmlString.substring(beginIndex,
 				Math.max(beginIndex, endIndex + 1));
+		return htmlSnippet;
 	}
 
 	public String convert(Note note) throws IOException, JDOMException {

@@ -7,6 +7,11 @@
 	<version>0.1</version>
 	<name>jenml2html</name>
 	<url>https://github.com/zsxwing/jenml2html</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -30,12 +35,42 @@
 			<artifactId>libthrift</artifactId>
 			<version>0.8.0</version>
 		</dependency>
-	    <dependency>
-            <groupId>com.evernote</groupId>
-            <artifactId>com.evernote.edam</artifactId>
-            <version>1.21</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/evernote-api-1.21.jar</systemPath>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.evernote</groupId>
+			<artifactId>com.evernote.edam</artifactId>
+			<version>1.21</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/evernote-api-1.21.jar</systemPath>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptor>src/assembly.xml</descriptor>
+					<finalName>${project.name}-${pom.version}-with-dependencies</finalName>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

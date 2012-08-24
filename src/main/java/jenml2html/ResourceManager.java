@@ -12,9 +12,11 @@ public class ResourceManager {
 
 	public ResourceManager(Note note) {
 		hashResourceMap = new HashMap<String, Resource>();
-		for (Resource resource : note.getResources()) {
-			hashResourceMap.put(Digest.md5(resource.getData().getBody()),
-					resource);
+		if (note.getResources() != null) {
+			for (Resource resource : note.getResources()) {
+				hashResourceMap.put(Digest.md5(resource.getData().getBody()),
+						resource);
+			}
 		}
 	}
 

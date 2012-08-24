@@ -21,6 +21,20 @@ import com.evernote.edam.userstore.UserStore;
 
 public class EvernoteClient {
 
+	public static class Options {
+
+		/**
+		 * Suggest to set a appropriate timeout(seconds).
+		 */
+		public int connectTimeout = 30;
+
+		/**
+		 * Suggest to set a appropriate timeout(seconds). If you have some big
+		 * resources(such as a big photo), the time of reading may be long.
+		 */
+		public int readTimeout = 60;
+	}
+
 	private static final String EVERNOTE_HOST = "www.evernote.com";
 	private static final String USER_STORE_URL = "https://" + EVERNOTE_HOST
 			+ "/edam/user";
@@ -42,6 +56,11 @@ public class EvernoteClient {
 	 */
 	public EvernoteClient(String developerToken) throws TException,
 			EDAMUserException, EDAMSystemException {
+		this(developerToken, new Options());
+	}
+
+	public EvernoteClient(String developerToken, Options options)
+			throws EDAMUserException, EDAMSystemException, TException {
 		this.authToken = developerToken;
 		this.noteStore = createNoteStore(this.authToken, createUserStore());
 	}
@@ -52,6 +71,8 @@ public class EvernoteClient {
 
 	private UserStore.Client createUserStore() throws TException {
 		THttpClient userStoreTrans = new THttpClient(USER_STORE_URL);
+		userStoreTrans.setConnectTimeout(60000);
+		userStoreTrans.setReadTimeout(60000);
 		userStoreTrans.setCustomHeader("User-Agent", USER_AGENT);
 		TBinaryProtocol userStoreProt = new TBinaryProtocol(userStoreTrans);
 		UserStore.Client userStore = new UserStore.Client(userStoreProt,
@@ -69,6 +90,8 @@ public class EvernoteClient {
 			EDAMSystemException, TException {
 		String notestoreUrl = userStore.getNoteStoreUrl(autoToken);
 		THttpClient noteStoreTrans = new THttpClient(notestoreUrl);
+		noteStoreTrans.setConnectTimeout(60000);
+		noteStoreTrans.setReadTimeout(60000);
 		noteStoreTrans.setCustomHeader("User-Agent", USER_AGENT);
 		TBinaryProtocol noteStoreProt = new TBinaryProtocol(noteStoreTrans);
 		return new NoteStore.Client(noteStoreProt, noteStoreProt);
